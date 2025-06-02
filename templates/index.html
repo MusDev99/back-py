@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Flask SQLite App{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Items List</h1>
+
+{% if items %}
+    <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
+<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for item in items %}
+                <tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">{{ item.id }}</td>
+<td class="px-6 py-4 whitespace-nowrap">{{ item.name }}</td>
+<td class="px-6 py-4">{{ item.description }}</td>
+<td class="px-6 py-4">{{ item.price }}</td>
+<td class="px-6 py-4 whitespace-nowrap">
+    <a href="{{ url_for('edit', id=item.id) }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded mr-2">Edit</a>
+    <a href="{{ url_for('delete', id=item.id) }}" class="inline-block bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-2 rounded" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded">
+        No items found. <a href="{{ url_for('add') }}" class="text-blue-800 underline">Add an item</a> to get started.
+    </div>
+{% endif %}
+
+<a href="{{ url_for('add') }}" class="inline-block bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded mt-6">Add New Item</a>
+{% endblock %}
